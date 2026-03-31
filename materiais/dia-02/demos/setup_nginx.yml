@@ -1,0 +1,23 @@
+---
+- name: Configurar Servidor Web Nginx
+  hosts: all
+  become: true # Vira root (necessário no local, redundante mas ok no docker)
+
+  tasks:
+    - name: Garantir que o Nginx está instalado
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Criar página index.html customizada
+      copy:
+        content: "<h1>Servidor configurado via ANSIBLE (Playbook)</h1>"
+        dest: /var/www/html/index.html
+        mode: '0644'
+
+    - name: Garantir que o Nginx está rodando
+      service:
+        name: nginx
+        state: started
+        enabled: yes

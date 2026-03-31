@@ -1,0 +1,13 @@
+---
+- name: Configurar Aplicacao com Variáveis
+  hosts: all
+  
+  vars:
+    app_env: "dev"
+    db_name: "db_{{ app_env }}"
+
+  tasks:
+    - name: Criar arquivo de configuração dinâmico
+      template:
+        src: app.conf.j2
+        dest: /tmp/app.conf
